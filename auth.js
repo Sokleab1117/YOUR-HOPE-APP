@@ -231,10 +231,14 @@ function showMainApp() {
     mainApp.style.display = 'block';
   }
 
+  // Sync the isSignedUp flag (var in app.js, so window-accessible)
+  isSignedUp = true;
+
   // Update UI with user info
   const session = getSession();
   if (session) {
-    document.getElementById('user-name').textContent = session.fullName;
+    const nameEl = document.getElementById('user-name');
+    if (nameEl) nameEl.textContent = session.fullName;
   }
 
   if (typeof goTab === 'function') {

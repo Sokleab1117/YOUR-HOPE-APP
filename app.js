@@ -8,7 +8,7 @@
 let curLang = 'eng';   // 'eng' | 'kh'
 let curPage = 0;      // current question page (0–2, 7 questions each)
 let curView = 'list'; // 'list' | 'map'
-let isSignedUp = false;
+var isSignedUp = false;
 let userInfo = null;
 let ANS = {};
 const chatHist = [];  // Anthropic messages array
@@ -99,13 +99,15 @@ function applyLang() {
 /* ── TABS ───────────────────────────────────────────────────────── */
 
 function goTab(tab) {
+  const loggedIn = (typeof isLoggedIn === 'function') ? isLoggedIn() : isSignedUp;
+
   // If already signed in, redirect to home instead of signin/signup
-  if (isSignedUp && (tab === 'signin' || tab === 'signup')) {
+  if (loggedIn && (tab === 'signin' || tab === 'signup')) {
     tab = 'home';
   }
 
   // Check if user needs to sign up before accessing test or services
-  if ((tab === 'test' || tab === 'services') && !isSignedUp) {
+  if ((tab === 'test' || tab === 'services') && !loggedIn) {
     showAuthPrompt(tab);
     return;
   }
