@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 
+
 import authRoutes   from './routes/authRoutes.js';
 import resultRoutes from './routes/resultRoutes.js';
 import clinicRoutes from './routes/clinicRoutes.js';

@@ -14,7 +14,6 @@ import {
   updateQuote,
   deleteQuote,
 } from '../controllers/adminController.js';
-
 const router = Router();
 
 router.use(verifyToken, requireAdmin);

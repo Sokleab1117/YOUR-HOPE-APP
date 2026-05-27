@@ -15,7 +15,6 @@ export const saveChatMessage = async (req, res) => {
         message: 'role must be user or assistant, and message is required'
       });
     }
-
     const [result] = await pool.query(
       `INSERT INTO chat_messages (user_id, role, message)
        VALUES (?, ?, ?)`,

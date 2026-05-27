@@ -16,5 +16,4 @@ router.post  ('/',    saveResult);        // save a new test result
 router.get   ('/',    getMyResults);      // list my results  (?limit=20&offset=0)
 router.get   ('/:id', getResultDetail);   // full result + answers by id
 router.delete('/:id', deleteResult);      // delete one result
-
 export default router;

@@ -212,7 +212,6 @@ export const login = async (req, res) => {
         });
     }
 };
-
 /* ── GET ME ────────────────────────────────────────────────────────
    GET /api/auth/me   (requires verifyToken middleware)
    Returns the current user's profile. Useful so the frontend

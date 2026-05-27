@@ -479,7 +479,6 @@ const CLINICS = [
   {id:99, name:"Dr. Heng Sopheap Psychiatrist",                              loc:"Sen Sok",          tel:"061 545 565",type:"Clinic",   cat:"Mental Health Clinic",       hours:"N/A",                                                   target:"All ages",                       nssf:"No",  services:"Mental health consultation, counseling, therapy"},
   {id:100,name:"Visith Clinic",                                               loc:"Sen Sok",          tel:"092199030",  type:"Clinic",   cat:"General",                    hours:"Mon-Sun 7:00am-8:00pm",                                 target:"All ages",                       nssf:"No",  services:"General healthcare"},
 ];
-
 /* ── i18n TRANSLATION STRINGS ───────────────────────────────────── */
 const T = {
   eng: {

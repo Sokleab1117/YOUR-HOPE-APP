@@ -15,7 +15,6 @@ export const getClinics = async (req, res) => {
       limit = 100,
       offset = 0,
     } = req.query;
-
     const where = [];
     const params = [];
 

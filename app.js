@@ -20,7 +20,6 @@ const HERO_WELCOME = {
   eng: ['Welcome to', 'Your-Hope'],
   kh: ['សូមស្វាគមន៍មកកាន់', 'ក្តីសង្ឃឹមរបស់អ្នក']
 };
-
 const heroQuotes = {
   eng: [
     'Healing takes time, and asking for help is a courageous step.',

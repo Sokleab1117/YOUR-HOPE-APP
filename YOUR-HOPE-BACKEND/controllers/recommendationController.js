@@ -6,7 +6,6 @@ const VALID_LEVELS = ['Normal', 'Mild', 'Moderate', 'Severe', 'Extremely Severe'
    Stores advice by severity level and language. This makes result
    recommendations editable from the database later.
 ──────────────────────────────────────────────────────────────────── */
-
 export const getRecommendations = async (req, res) => {
   try {
     const { level = '', lang = '' } = req.query;

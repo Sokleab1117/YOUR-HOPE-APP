@@ -253,7 +253,6 @@ export const getResultDetail = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
 /* ── DELETE RESULT ─────────────────────────────────────────────────
    DELETE /api/results/:id
    Headers: Authorization: Bearer <token>

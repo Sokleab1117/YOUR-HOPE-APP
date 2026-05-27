@@ -6,7 +6,6 @@ const VALID_STATUS = ['pending', 'confirmed', 'cancelled', 'completed'];
    Protected APIs. Users can save appointment requests/bookmarks for
    mental health services.
 ──────────────────────────────────────────────────────────────────── */
-
 export const createAppointment = async (req, res) => {
   try {
     const userId = req.user.user_id;

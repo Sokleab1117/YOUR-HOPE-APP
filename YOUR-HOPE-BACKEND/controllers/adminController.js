@@ -12,7 +12,6 @@ const cleanInt = (value, fallback = 20, max = 100) => {
   if (Number.isNaN(parsed) || parsed < 0) return fallback;
   return Math.min(parsed, max);
 };
-
 const jsonTips = value => {
   if (Array.isArray(value)) return JSON.stringify(value.filter(Boolean));
   if (typeof value === 'string' && value.trim()) {

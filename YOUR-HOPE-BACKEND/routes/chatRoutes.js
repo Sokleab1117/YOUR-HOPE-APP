@@ -12,5 +12,4 @@ router.use(verifyToken);
 router.post('/', saveChatMessage);
 router.get('/', getMyChatMessages);
 router.delete('/', clearMyChatMessages);
-
 export default router;

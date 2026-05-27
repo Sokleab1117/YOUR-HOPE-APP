@@ -5,6 +5,7 @@
 --
 --  Run:  mysql -u root -p your_hope_db < sql/migrate.sql
 -- ═══════════════════════════════════════════════════════════════════
+
 USE your_hope_db;
 
 -- ── STEP 1: Fix charset on all tables ──────────────────────────────

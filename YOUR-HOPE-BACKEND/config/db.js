@@ -38,5 +38,4 @@ pool.getConnection()
         console.error('❌  MySQL connection failed:', err.message);
         process.exit(1);   // no point running the server without a DB
     });
-
 export default pool;

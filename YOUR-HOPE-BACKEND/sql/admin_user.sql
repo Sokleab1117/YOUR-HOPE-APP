@@ -1,5 +1,6 @@
 -- Make an existing user an admin.
 -- Change the email to your real admin account before running.
+
 USE your_hope_db;
 
 UPDATE users

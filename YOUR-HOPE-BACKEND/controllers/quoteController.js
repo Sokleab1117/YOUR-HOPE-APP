@@ -4,7 +4,6 @@ import pool from '../config/db.js';
    Motivational quote APIs. Frontend can later call /api/quotes/random
    instead of keeping quotes only in JavaScript.
 ──────────────────────────────────────────────────────────────────── */
-
 export const getQuotes = async (req, res) => {
   try {
     const { lang = '', category = '', limit = 50, offset = 0 } = req.query;

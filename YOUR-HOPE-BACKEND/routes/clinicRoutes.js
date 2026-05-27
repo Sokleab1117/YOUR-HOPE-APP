@@ -5,5 +5,4 @@ const router = Router();
 
 router.get('/', getClinics);
 router.get('/:id', getClinicById);
-
 export default router;

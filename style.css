@@ -2684,7 +2684,6 @@ html[lang="km"] .hero-random-quote,
   font-weight: 700;
 }
 .admin-empty { color: var(--muted); font-size: 13px; }
-
 @media (max-width: 780px) {
   .admin-hero { flex-direction: column; align-items: flex-start; }
   .admin-stats-grid,

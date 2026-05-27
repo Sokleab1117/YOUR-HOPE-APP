@@ -16,7 +16,6 @@ function getToken() {
 function saveToken(token) {
   localStorage.setItem(TOKEN_KEY, token);
 }
-
 /* ── SESSION HELPERS ────────────────────────────────────────────── */
 function getSession() {
   const data = localStorage.getItem(SESSION_KEY);
