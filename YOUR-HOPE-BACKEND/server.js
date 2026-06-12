@@ -15,14 +15,39 @@ import aiRoutes from './routes/aiRoutes.js';
 const app  = express();
 const PORT = process.env.PORT || 5001;   // fixed: was 3000, frontend calls 5001
 
+/* ── CORS ─────────────────────────────────────────────────────────
+   Allowed origins are read from FRONTEND_ORIGINS (comma-separated)
+   so you can add/change deployed frontend URLs without touching code
+   — just update the env var in Railway and redeploy.
+
+   Example Railway value:
+     FRONTEND_ORIGINS=https://your-hope-xxxx.netlify.app,https://yourdomain.com
+
+   Local dev origins are always allowed by default.
+──────────────────────────────────────────────────────────────────── */
+const defaultOrigins = [
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'http://localhost:3000',
+];
+
+const envOrigins = (process.env.FRONTEND_ORIGINS || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+
+const allowedOrigins = [...defaultOrigins, ...envOrigins];
+
+console.log('🌐  Allowed CORS origins:', allowedOrigins);
+
 /* ── MIDDLEWARE ───────────────────────────────────────────────────── */
 app.use(cors({
-  origin: [
-    'http://localhost:5500',
-    'http://127.0.0.1:5500',
-    'http://localhost:3000',
-    'https://symphonious-pegasus-d35df6.netlify.app'
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, server-to-server, mobile apps)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   credentials: true
 }));
 app.use(express.json());
