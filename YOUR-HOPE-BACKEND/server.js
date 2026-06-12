@@ -16,7 +16,15 @@ const app  = express();
 const PORT = process.env.PORT || 5001;   // fixed: was 3000, frontend calls 5001
 
 /* ── MIDDLEWARE ───────────────────────────────────────────────────── */
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'http://localhost:3000',
+    'https://symphonious-pegasus-d35df6.netlify.app'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 /* ── ROUTES ───────────────────────────────────────────────────────── */
