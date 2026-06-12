@@ -4,7 +4,7 @@
    Connects to backend API at http://localhost:5001
    ═══════════════════════════════════════════════════════════════════ */
 
-const API_BASE    = 'http://localhost:5001/api';
+const API_BASE    = CONFIG.API_BASE;
 const SESSION_KEY = 'hope_session';
 const TOKEN_KEY   = 'hope_token';
 
@@ -16,6 +16,7 @@ function getToken() {
 function saveToken(token) {
   localStorage.setItem(TOKEN_KEY, token);
 }
+
 /* ── SESSION HELPERS ────────────────────────────────────────────── */
 function getSession() {
   const data = localStorage.getItem(SESSION_KEY);
@@ -81,32 +82,32 @@ async function signUp() {
 
   // Validation
   if (!fullName || !email || !password || !confirmPwd) {
-    showAuthError('Please fill in all fields'); return;
+    showAuthError(T[curLang].errFillAll); return;
   }
   if (!validateEmail(email)) {
-    showAuthError('Please enter a valid email'); return;
+    showAuthError(T[curLang].errValidEmail); return;
   }
   if (password.length < 6) {
-    showAuthError('Password must be at least 6 characters'); return;
+    showAuthError(T[curLang].errPassMin); return;
   }
   if (password !== confirmPwd) {
-    showAuthError('Passwords do not match'); return;
+    showAuthError(T[curLang].errPassMatch); return;
   }
   if (!termsChecked) {
-    showAuthError('Please agree to Terms of Service'); return;
+    showAuthError(T[curLang].errTerms); return;
   }
   if (job.length > 120) {
-    showAuthError('Job must be 120 characters or less'); return;
+    showAuthError(T[curLang].errJobLen); return;
   }
 
   const age = ageRaw === '' ? null : Number(ageRaw);
   if (age !== null && (!Number.isInteger(age) || age < 1 || age > 120)) {
-    showAuthError('Age must be a whole number between 1 and 120'); return;
+    showAuthError(T[curLang].errAge); return;
   }
 
   const allowedGenders = ['', 'male', 'female', 'other', 'prefer_not_to_say'];
   if (!allowedGenders.includes(gender)) {
-    showAuthError('Please choose a valid gender option'); return;
+    showAuthError(T[curLang].errGender); return;
   }
 
   try {
@@ -126,15 +127,15 @@ async function signUp() {
     const data = await response.json();
 
     if (response.ok) {
-      showAuthSuccess('Account created! Logging in...');
+      showAuthSuccess(T[curLang].successCreated);
       setTimeout(() => logIn(email, password), 1000);
     } else {
-      showAuthError(data.message || 'Signup failed');
+      showAuthError(data.message || T[curLang].errFillAll);
     }
 
   } catch (error) {
     console.error('[signUp]', error);
-    showAuthError('Cannot connect to backend. Is the server running?');
+    showAuthError(T[curLang].errNoServer);
   }
 }
 
@@ -146,7 +147,7 @@ async function logIn(email, password) {
   password = password || document.getElementById('signin-password').value;
 
   if (!email || !password) {
-    showAuthError('Please enter email and password'); return;
+    showAuthError(T[curLang].errFillAll); return;
   }
 
   try {
@@ -159,7 +160,7 @@ async function logIn(email, password) {
     const data = await response.json();
 
     if (!response.ok) {
-      showAuthError(data.message || 'Login failed'); return;
+      showAuthError(data.message || T[curLang].errValidEmail); return;
     }
 
     // ── Save JWT token + session ─────────────────────────────────
@@ -168,7 +169,7 @@ async function logIn(email, password) {
 
     if (typeof updateAdminAccessUI === 'function') updateAdminAccessUI();
 
-    showAuthSuccess('Login successful!');
+    showAuthSuccess(T[curLang].successLogin);
     setTimeout(() => showMainApp(), 800);
 
   } catch (error) {
@@ -234,14 +235,28 @@ function showPage(page) {
   if (pageEl) pageEl.style.display = 'flex';
 }
 
+function showAuthContainer(page) {
+  const authContainer = document.getElementById('auth-container');
+  const mainApp       = document.querySelector('.app');
+  if (mainApp)       mainApp.style.display       = 'none';
+  if (authContainer) authContainer.style.display = 'flex';
+  showPage(page);
+}
+
 function goToSignIn() {
   clearAuthForm('signin');
-  showPage('signin');
+  showAuthContainer('signin');
 }
 
 function goToSignUp() {
   clearAuthForm('signup');
-  showPage('signup');
+  showAuthContainer('signup');
+}
+
+function backToApp() {
+  const authContainer = document.getElementById('auth-container');
+  if (authContainer) authContainer.style.display = 'none';
+  showMainApp();
 }
 
 function clearAuthForm(page) {
@@ -260,12 +275,33 @@ function clearAuthForm(page) {
 function formatUserMeta(session) {
   const parts = [];
   if (session.job) parts.push(session.job);
-  if (session.age) parts.push(`${session.age} years old`);
+  if (session.age) parts.push(`${session.age} ${T[curLang].adminAgeYrs}`);
   if (session.gender && session.gender !== 'prefer_not_to_say') {
-    const genderLabel = { male: 'Male', female: 'Female', other: 'Other' }[session.gender] || session.gender;
+    const genderLabel = { male: T[curLang].genderMale, female: T[curLang].genderFemale, other: T[curLang].genderOther }[session.gender] || session.gender;
     parts.push(genderLabel);
   }
   return parts.join(' · ');
+}
+
+function updateAuthUI() {
+  const session   = getSession();
+  const signinBtn = document.getElementById('signin-nav-btn');
+  const signoutBtn = document.getElementById('signout-btn');
+  const nameEl    = document.getElementById('user-name');
+
+  if (session) {
+    if (signinBtn)  signinBtn.classList.add('hidden');
+    if (signoutBtn) signoutBtn.classList.remove('hidden');
+    if (nameEl) {
+      const displayName = session.full_name || session.fullName || '';
+      const profileMeta = formatUserMeta(session);
+      nameEl.textContent = profileMeta ? `${displayName} · ${profileMeta}` : displayName;
+    }
+  } else {
+    if (signinBtn)  signinBtn.classList.remove('hidden');
+    if (signoutBtn) signoutBtn.classList.add('hidden');
+    if (nameEl) nameEl.textContent = '';
+  }
 }
 
 function showMainApp() {
@@ -282,15 +318,34 @@ function showMainApp() {
   }
 
   if (typeof updateAdminAccessUI === 'function') updateAdminAccessUI();
+  updateAuthUI();
 
-  if (session) {
-    const nameEl = document.getElementById('user-name');
-    if (nameEl) {
-      const displayName = session.full_name || session.fullName || '';
-      const profileMeta = formatUserMeta(session);
-      nameEl.textContent = profileMeta ? `${displayName} · ${profileMeta}` : displayName;
-    }
+  if (typeof goTab === 'function') {
+    goTab('home');
+  } else {
+    document.addEventListener('DOMContentLoaded', () => goTab('home'));
   }
+}
+
+/* ── GUEST MODE ─────────────────────────────────────────────────
+   Shown when no one is logged in. The main app (home, about, etc.)
+   is browsable, but protected tabs (test, services, chat, admin)
+   will prompt sign-in via goTab().
+──────────────────────────────────────────────────────────────── */
+function showGuestMode() {
+  const authContainer = document.getElementById('auth-container');
+  const mainApp       = document.querySelector('.app');
+
+  if (authContainer) authContainer.style.display = 'none';
+  if (mainApp)       mainApp.style.display       = 'block';
+
+  if (typeof window !== 'undefined') {
+    window.isSignedUp = false;
+    window.userInfo   = null;
+  }
+
+  if (typeof updateAdminAccessUI === 'function') updateAdminAccessUI();
+  updateAuthUI();
 
   if (typeof goTab === 'function') {
     goTab('home');
@@ -312,10 +367,12 @@ async function initAuth() {
     if (typeof updateAdminAccessUI === 'function') updateAdminAccessUI();
     showMainApp();
   } else {
-    showPage('signin');
+    showGuestMode();
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  initAuth();
+  initAuth().then(() => {
+    if (typeof applyLang === 'function') applyLang();
+  });
 });

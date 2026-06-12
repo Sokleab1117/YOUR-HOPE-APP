@@ -20,6 +20,7 @@ const HERO_WELCOME = {
   eng: ['Welcome to', 'Your-Hope'],
   kh: ['សូមស្វាគមន៍មកកាន់', 'ក្តីសង្ឃឹមរបស់អ្នក']
 };
+
 const heroQuotes = {
   eng: [
     'Healing takes time, and asking for help is a courageous step.',
@@ -125,56 +126,104 @@ function sid(id, v) {
   if (e) e.innerHTML = v;
 }
 
+function sid(id, v) {
+  const e = document.getElementById(id);
+  if (e) e.innerHTML = v;
+}
+
+function sph(id, v) {
+  const e = document.getElementById(id);
+  if (e) e.placeholder = v;
+}
+
+function stxt(id, v) {
+  const e = document.getElementById(id);
+  if (e) e.textContent = v;
+}
+
 function applyLang() {
   const t = T[curLang];
   refreshHeroQuoteLanguage(true);
-  sid('nssf-all', curLang === 'kh' ? 'NSSF: ទាំងអស់' : 'NSSF: All');
-  sid('nssf-yes', curLang === 'kh' ? 'NSSF: មាន' : 'NSSF: Yes');
-  sid('nssf-no',  curLang === 'kh' ? 'NSSF: គ្មាន' : 'NSSF: No');
-  const questionsPane = document.getElementById('pane-questions');
-  // Brand
-  sid('brand-name',    t.brandName);
+
+  // ── Brand ─────────────────────────────────────────────────────
+  sid('brand-name', t.brandName);
   sid('brand-tagline', t.brandTag);
-  // Hero
-  sid('h-eye',   t.hEye);  sid('h-title', t.hTitle); sid('h-sub', t.hSub);
+
+  // ── Nav ───────────────────────────────────────────────────────
+  sid('nav-home', t.navHome); sid('nav-test', t.navTest);
+  sid('nav-services', t.navServices); sid('nav-chat', t.navChat);
+  sid('nav-admin', t.navAdmin);
+  stxt('signout-btn', t.logoutBtn);
+  stxt('signin-nav-btn', t.signinBtn);
+  stxt('signin-guest-btn', t.continueGuest);
+  stxt('signup-guest-btn', t.continueGuest);
+
+  // ── Hero ──────────────────────────────────────────────────────
+  sid('h-eye', t.hEye); sid('h-title', t.hTitle); sid('h-sub', t.hSub);
   sid('h-stat1', t.hStat1); sid('h-stat2', t.hStat2); sid('h-stat3', t.hStat3);
-  // Home cards
+
+  // ── Home cards ────────────────────────────────────────────────
   sid('hc1l', t.hc1l); sid('hc1t', t.hc1t); sid('hc1d', t.hc1d); sid('hc1b', t.hc1b);
   sid('hc2l', t.hc2l); sid('hc2t', t.hc2t); sid('hc2d', t.hc2d); sid('hc2b', t.hc2b);
   sid('hc3l', t.hc3l); sid('hc3t', t.hc3t); sid('hc3d', t.hc3d); sid('hc3b', t.hc3b);
   sid('hc4l', t.hc4l); sid('hc4t', t.hc4t); sid('hc4d', t.hc4d); sid('hc4b', t.hc4b);
   sid('hc5l', t.hc5l); sid('hc5t', t.hc5t); sid('hc5d', t.hc5d); sid('hc5b', t.hc5b);
   sid('h-disc', t.hDisc);
-  // Test
+
+  // ── DASS-21 test ──────────────────────────────────────────────
   sid('t-eye', t.tEye); sid('t-title', t.tTitle); sid('t-sub', t.tSub);
   sid('t-scaletitle', t.tScaleTitle);
   sid('rl0', t.rl0); sid('rl1', t.rl1); sid('rl2', t.rl2); sid('rl3', t.rl3);
   sid('t-startbtn', t.tStartBtn); sid('t-privacy', t.tPrivacy); sid('t-note', t.tNote);
-  // Results
+
+  // ── Results ───────────────────────────────────────────────────
   sid('r-heading', t.rHeading); sid('r-subhead', t.rSubhead);
-  sid('r-retake',  t.rRetake);  sid('r-find', t.rFind); sid('r-pdf', t.rPdf);
+  sid('r-retake', t.rRetake); sid('r-find', t.rFind); sid('r-pdf', t.rPdf);
   sid('r-disc', t.rDisc);
-  // Services
+
+  // ── Services ──────────────────────────────────────────────────
   sid('s-eye', t.sEye); sid('s-title', t.sTitle); sid('s-sub', t.sSub);
   sid('vplist', t.svList); sid('vpmap', t.svMap);
-  // Chat
+  sph('search-inp', t.searchPH);
+
+  // Services filter dropdowns
+  const typeSel = document.getElementById('type-sel');
+  if (typeSel) {
+    typeSel.options[0].text = t.filterAllTypes;
+    typeSel.options[1].text = t.filterHospital;
+    typeSel.options[2].text = t.filterClinic;
+    typeSel.options[3].text = t.filterNGO;
+    typeSel.options[4].text = t.filterService;
+  }
+  sid('nssf-all', t.nssfAll);
+  sid('nssf-yes', t.nssfYes);
+  sid('nssf-no',  t.nssfNo);
+
+  // Map legend
+  const legendItems = document.querySelectorAll('.legend-item');
+  const legendKeys = ['mapLegendClinic','mapLegendHospital','mapLegendNGO','mapLegendService'];
+  legendItems.forEach((item, i) => {
+    if (!legendKeys[i]) return;
+    const nodes = item.childNodes;
+    const textNode = nodes[nodes.length - 1];
+    if (textNode && textNode.nodeType === 3) textNode.textContent = t[legendKeys[i]];
+  });
+
+  // ── Chat ──────────────────────────────────────────────────────
   sid('c-eye', t.cEye); sid('c-title', t.cTitle); sid('c-sub', t.cSub); sid('c-disc', t.cDisc);
-  // Nav
-  sid('nav-home', t.navHome); sid('nav-test', t.navTest);
-  sid('nav-services', t.navServices); sid('nav-chat', t.navChat); sid('nav-admin', t.navAdmin || 'Admin');
-  // About
+  sid('ai-greeting', t.aiGreeting);
+  sph('chat-inp', t.chatPlaceholder);
+  stxt('send-btn', t.chatSendBtn);
+
+  // ── About ─────────────────────────────────────────────────────
   sid('a-eye', t.aEye); sid('a-title', t.aTitle); sid('a-sub', t.aSub);
-  sid('about-hero-title', t.aboutHeroTitle);
-  sid('about-hero-lead', t.aboutHeroLead);
-  sid('about-start-btn', t.aboutStartBtn);
-  sid('about-find-btn', t.aboutFindBtn);
+  sid('about-hero-title', t.aboutHeroTitle); sid('about-hero-lead', t.aboutHeroLead);
+  sid('about-start-btn', t.aboutStartBtn); sid('about-find-btn', t.aboutFindBtn);
   sid('a-mission-title', t.aMissionTitle); sid('a-mission-text', t.aMissionText);
   sid('a-vision-title', t.aVisionTitle); sid('a-vision-text', t.aVisionText);
   sid('a-values-title', t.aValuesTitle);
-  sid('about-promise-1', t.aboutPromise1);
-  sid('about-promise-2', t.aboutPromise2);
-  sid('about-promise-3', t.aboutPromise3);
-  sid('about-promise-4', t.aboutPromise4);
+  sid('about-promise-1', t.aboutPromise1); sid('about-promise-2', t.aboutPromise2);
+  sid('about-promise-3', t.aboutPromise3); sid('about-promise-4', t.aboutPromise4);
   sid('about-why-title', t.aboutWhyTitle);
   sid('about-feature-1-title', t.aboutFeature1Title); sid('about-feature-1-desc', t.aboutFeature1Desc);
   sid('about-feature-2-title', t.aboutFeature2Title); sid('about-feature-2-desc', t.aboutFeature2Desc);
@@ -186,15 +235,208 @@ function applyLang() {
   sid('av1-name', t.av1Name); sid('av1-desc', t.av1Desc);
   sid('av2-name', t.av2Name); sid('av2-desc', t.av2Desc);
   sid('av3-name', t.av3Name); sid('av3-desc', t.av3Desc);
-  // AI greeting
-  sid('ai-greeting', t.aiGreeting);
-  // Search placeholder
-  const si = document.getElementById('search-inp');
-  if (si) si.placeholder = t.searchPH;
+
+  // ── Auth — Sign In page ───────────────────────────────────────
+  const siPage = document.querySelector('[data-auth-page="signin"]');
+  if (siPage) {
+    const q = (sel) => siPage.querySelector(sel);
+    const title = q('.auth-title');    if (title)    title.textContent  = t.siTitle;
+    const sub   = q('.auth-subtitle'); if (sub)      sub.textContent    = t.siSubtitle;
+    const emailLbl = q('label[for="signin-email"]');
+    const passLbl  = q('label[for="signin-password"]');
+    if (emailLbl) emailLbl.childNodes[0].textContent = t.labelEmail;
+    if (passLbl)  passLbl.childNodes[0].textContent  = t.labelPassword;
+    sph('signin-email',    t.phEmail);
+    sph('signin-password', t.phPassword);
+    const remLbl = q('label[for="signin-remember"]');
+    if (remLbl) remLbl.textContent = t.rememberMe;
+    const submitBtn = q('.auth-submit-btn');
+    if (submitBtn) submitBtn.textContent = t.signinBtn;
+    const toggleTxt = q('.auth-toggle-text');
+    const toggleBtn = q('.auth-toggle-btn');
+    if (toggleTxt && toggleTxt.childNodes[0]) toggleTxt.childNodes[0].textContent = t.noAccount + ' ';
+    if (toggleBtn) toggleBtn.textContent = t.toggleSignup;
+  }
+
+  // ── Auth — Sign Up page ───────────────────────────────────────
+  const suPage = document.querySelector('[data-auth-page="signup"]');
+  if (suPage) {
+    const q = (sel) => suPage.querySelector(sel);
+    const title = q('.auth-title');    if (title) title.textContent = t.suTitle;
+    const sub   = q('.auth-subtitle'); if (sub)   sub.textContent   = t.suSubtitle;
+
+    // Labels + placeholders
+    const labelMap = [
+      ['signup-name',     'labelName',     'phName'],
+      ['signup-email',    'labelEmail',    'phEmail'],
+      ['signup-job',      'labelJob',      'phJob'],
+      ['signup-age',      'labelAge',      'phAge'],
+      ['signup-password', 'labelPassword', 'phPasswordNew'],
+      ['signup-confirm',  'labelConfirm',  'phConfirm'],
+    ];
+    labelMap.forEach(([id, lk, pk]) => {
+      const inp = document.getElementById(id);
+      const lbl = suPage.querySelector(`label[for="${id}"]`);
+      if (inp) inp.placeholder = t[pk];
+      if (lbl && lbl.childNodes[0] && lbl.childNodes[0].nodeType === 3) {
+        lbl.childNodes[0].textContent = t[lk] + ' ';
+      }
+      if (lbl) {
+        const opt = lbl.querySelector('.optional-label');
+        if (opt) opt.textContent = t.optionalLabel;
+      }
+    });
+
+    // Gender label
+    const genderLbl = suPage.querySelector('label[for="signup-gender"]');
+    if (genderLbl) {
+      if (genderLbl.childNodes[0] && genderLbl.childNodes[0].nodeType === 3) {
+        genderLbl.childNodes[0].textContent = t.labelGender + ' ';
+      }
+      const opt = genderLbl.querySelector('.optional-label');
+      if (opt) opt.textContent = t.optionalLabel;
+    }
+    // Gender options
+    const genderSel = document.getElementById('signup-gender');
+    if (genderSel && genderSel.options.length >= 5) {
+      genderSel.options[0].text = t.genderBlank;
+      genderSel.options[1].text = t.genderFemale;
+      genderSel.options[2].text = t.genderMale;
+      genderSel.options[3].text = t.genderOther;
+      genderSel.options[4].text = t.genderPrefer;
+    }
+    // Terms
+    const termsLbl = suPage.querySelector('label[for="signup-terms"]');
+    if (termsLbl) termsLbl.innerHTML = t.termsText;
+
+    const submitBtn = q('.auth-submit-btn');
+    if (submitBtn) submitBtn.textContent = t.signupBtn;
+    const toggleTxt = q('.auth-toggle-text');
+    const toggleBtn = q('.auth-toggle-btn');
+    if (toggleTxt && toggleTxt.childNodes[0]) toggleTxt.childNodes[0].textContent = t.alreadyAccount + ' ';
+    if (toggleBtn) toggleBtn.textContent = t.toggleLogin;
+  }
+
+  // ── Sign-out modal ────────────────────────────────────────────
+  const soModal = document.getElementById('signout-modal');
+  if (soModal) {
+    const soTitle = soModal.querySelector('.modal-title');
+    const soMsg   = soModal.querySelector('.modal-msg');
+    const soBtns  = soModal.querySelectorAll('.modal-btn');
+    if (soTitle)   soTitle.textContent   = t.signoutTitle;
+    if (soMsg)     soMsg.textContent     = t.signoutMsg;
+    if (soBtns[0]) soBtns[0].textContent = t.cancelBtn;
+    if (soBtns[1]) soBtns[1].textContent = t.signoutConfirm;
+  }
+
+  // ── Auth prompt modal ─────────────────────────────────────────
+  sid('auth-prompt-title', t.authPromptTitle);
+  const promptSignin = document.getElementById('auth-prompt-signin');
+  const promptSignup = document.getElementById('auth-prompt-signup');
+  if (promptSignin) promptSignin.textContent = t.authPromptSignin;
+  if (promptSignup) promptSignup.textContent = t.authPromptSignup;
+
+  // ── Admin ─────────────────────────────────────────────────────
+  sid('admin-eye', t.adminEye); sid('admin-title', t.adminTitle); sid('admin-sub', t.adminSub);
+  const adminRefBtn = document.querySelector('.admin-refresh-btn');
+  if (adminRefBtn) adminRefBtn.textContent = t.adminRefresh;
+
+  // Admin tabs
+  const adminTabs = document.querySelectorAll('.admin-tab');
+  const tabKeys = ['adminTabOverview','adminTabUsers','adminTabResults','adminTabClinics','adminTabQuotes'];
+  adminTabs.forEach((tab, i) => { if (tabKeys[i]) tab.textContent = t[tabKeys[i]]; });
+
+  // Admin search inputs + placeholders
+  sph('admin-user-search',    t.adminSearchUsers);
+  sph('admin-result-search',  t.adminSearchResults);
+  sph('admin-clinic-name',    t.adminPhClinicName);
+  sph('admin-clinic-location',t.adminPhLocation);
+  sph('admin-clinic-phone',   t.adminPhPhone);
+  sph('admin-quote-text',     t.adminPhQuote);
+  sph('admin-quote-category', t.adminPhCategory);
+
+  // Admin selects
+  const adminRoleSel = document.getElementById('admin-user-role');
+  if (adminRoleSel && adminRoleSel.options.length >= 3) {
+    adminRoleSel.options[0].text = t.adminAllRoles;
+    adminRoleSel.options[1].text = t.adminRoleUser;
+    adminRoleSel.options[2].text = t.adminRoleAdmin;
+  }
+  const adminLevelSel = document.getElementById('admin-result-level');
+  if (adminLevelSel && adminLevelSel.options.length >= 6) {
+    adminLevelSel.options[0].text = t.adminAllLevels;
+    adminLevelSel.options[1].text = t.lvLabels.Normal;
+    adminLevelSel.options[2].text = t.lvLabels.Mild;
+    adminLevelSel.options[3].text = t.lvLabels.Moderate;
+    adminLevelSel.options[4].text = t.lvLabels.Severe;
+    adminLevelSel.options[5].text = t.lvLabels['Extremely Severe'];
+  }
+  const adminClinicType = document.getElementById('admin-clinic-type');
+  if (adminClinicType && adminClinicType.options.length >= 4) {
+    adminClinicType.options[0].text = t.filterClinic;
+    adminClinicType.options[1].text = t.filterHospital;
+    adminClinicType.options[2].text = t.filterNGO;
+    adminClinicType.options[3].text = t.filterService;
+  }
+  const adminNssfSel = document.getElementById('admin-clinic-nssf');
+  if (adminNssfSel && adminNssfSel.options.length >= 2) {
+    adminNssfSel.options[0].text = t.adminNssfNo;
+    adminNssfSel.options[1].text = t.adminNssfYes;
+  }
+  const adminQuoteLang = document.getElementById('admin-quote-language');
+  if (adminQuoteLang && adminQuoteLang.options.length >= 2) {
+    adminQuoteLang.options[0].text = t.adminLangEng;
+    adminQuoteLang.options[1].text = t.adminLangKh;
+  }
+
+  // ── Admin stat cards ─────────────────────────────────────────────
+  stxt('admin-stat-users',   t.adminStatUsers);
+  stxt('admin-stat-tests',   t.adminStatTests);
+  stxt('admin-stat-risk',    t.adminStatRisk);
+  stxt('admin-stat-clinics', t.adminStatClinics);
+
+  // ── Admin tabs ────────────────────────────────────────────────
+  stxt('admin-tab-overview', t.adminTabOverview);
+  stxt('admin-tab-users',    t.adminTabUsers);
+  stxt('admin-tab-results',  t.adminTabResults);
+  stxt('admin-tab-clinics',  t.adminTabClinics);
+  stxt('admin-tab-quotes',   t.adminTabQuotes);
+
+  // ── Admin card titles ─────────────────────────────────────────
+  stxt('admin-title-risk',         t.adminRiskTitle);
+  stxt('admin-title-avg',          t.adminAvgTitle);
+  stxt('admin-title-recent',       t.adminRecentTitle);
+  stxt('admin-title-addclinic',    t.adminAddClinicTitle);
+  stxt('admin-title-clinicdir',    t.adminClinicDirTitle);
+  stxt('admin-title-addquote',     t.adminAddQuoteTitle);
+  stxt('admin-title-latestquotes', t.adminLatestQuotesTitle);
+
+  // ── Admin table headers ───────────────────────────────────────
+  stxt('th-recent-user',    t.adminThUser);
+  stxt('th-recent-worst',   t.adminThWorst);
+  stxt('th-recent-date',    t.adminThDate);
+  stxt('th-users-user',     t.adminThUser);
+  stxt('th-users-profile',  t.adminThProfile);
+  stxt('th-users-role',     t.adminThRole);
+  stxt('th-users-status',   t.adminThStatus);
+  stxt('th-users-joined',   t.adminThJoined);
+  stxt('th-results-user',   t.adminThUser);
+  stxt('th-results-scores', t.adminThScores);
+  stxt('th-results-levels', t.adminThLevels);
+  stxt('th-results-worst',  t.adminThWorst);
+  stxt('th-results-date',   t.adminThDate);
+
+  // ── Admin status initial text ─────────────────────────────────
+  const adminStatusEl = document.getElementById('admin-status');
+  if (adminStatusEl && !adminStatusEl.textContent.trim()) {
+    adminStatusEl.textContent = t.adminLoading;
+  }
+
   // Rebuild dynamic content
   buildChips();
   renderClinics(displayed);
   if (lastRes) renderResultsUI(lastRes);
+  const questionsPane = document.getElementById('pane-questions');
   if (questionsPane && !questionsPane.classList.contains('hidden')) renderPage();
 }
 
@@ -210,11 +452,11 @@ function goTab(tab) {
 
   // Check if user needs to sign up before accessing protected pages
   if (tab === 'admin' && !isAdminUser()) {
-    alert(curLang === 'kh' ? 'ត្រូវការសិទ្ធិ Admin' : 'Admin access required');
+    alert(T[curLang].adminEye);
     tab = 'home';
   }
 
-  if ((tab === 'test' || tab === 'services' || tab === 'admin') && !isSignedUp) {
+  if ((tab === 'test' || tab === 'services' || tab === 'chat' || tab === 'admin') && !isSignedUp) {
     showAuthPrompt(tab);
     return;
   }
@@ -253,8 +495,8 @@ function renderPage() {
   document.getElementById('btn-prev').classList.toggle('hidden', curPage === 0);
   document.getElementById('btn-next').innerHTML =
     e >= 21
-      ? (curLang === 'kh' ? 'មើលលទ្ធផល →' : 'See results →')
-      : (curLang === 'kh' ? 'បន្ទាប់ →' : 'Next →');
+      ? T[curLang].btnSeeResults
+      : T[curLang].btnNext;
 
   const tagClass = { d: 'dep', a: 'anx', s: 'str' };
   document.getElementById('q-container').innerHTML = QUESTIONS.slice(s, e).map(q => `
@@ -286,7 +528,7 @@ function nextPage() {
   const e = Math.min(s + 7, 21);
   const unanswered = QUESTIONS.slice(s, e).some(q => ANS[q.id] === undefined);
   if (unanswered) {
-    alert(curLang === 'kh' ? 'សូមឆ្លើយសំណួរទាំងអស់' : 'Please answer all questions on this page.');
+    alert(T[curLang].alertAnswerAll);
     return;
   }
   if (e >= 21) { showResults(); return; }
@@ -335,7 +577,7 @@ async function saveResultToBackend(res) {
   }));
 
   try {
-    const response = await fetch('http://localhost:5001/api/results', {
+    const response = await fetch(`${API_BASE}/results`, {
       method: 'POST',
       headers: {
         'Content-Type':  'application/json',
@@ -558,9 +800,13 @@ function showAuthPrompt(tab) {
   const modal = document.getElementById('auth-prompt-modal');
   const msg = document.getElementById('auth-prompt-msg');
   if (msg) {
-    msg.textContent = tab === 'test'
-      ? T[curLang].authPromptTestMsg
-      : T[curLang].authPromptServicesMsg;
+    if (tab === 'test') {
+      msg.textContent = T[curLang].authPromptTestMsg;
+    } else if (tab === 'chat') {
+      msg.textContent = T[curLang].authPromptChatMsg;
+    } else {
+      msg.textContent = T[curLang].authPromptServicesMsg;
+    }
   }
   if (modal) modal.classList.remove('hidden');
 }
@@ -605,7 +851,7 @@ async function sendChat() {
   // Typing indicator
   const typing = document.createElement('div');
   typing.className   = 'msg msg-ai msg-typing';
-  typing.textContent = 'Thinking…';
+  typing.textContent = T[curLang].thinkingMsg;
   area.appendChild(typing);
   area.scrollTop = area.scrollHeight;
   
@@ -616,35 +862,21 @@ async function sendChat() {
     ? `The user completed DASS-21: Depression=${lastRes.dS}(${lastRes.dL}), Anxiety=${lastRes.aS}(${lastRes.aL}), Stress=${lastRes.sS}(${lastRes.sL}).`
     : 'User has not completed the DASS-21 test yet.';
 
-  const GEMINI_KEY = CONFIG.geminiKey;
-
   try {
-    const r = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{
-              text: `You are a compassionate mental health support assistant for an app called YOUR HOPE in Phnom Penh, Cambodia. Help users understand mental health, interpret DASS-21 results, and find local services. Be warm, empathetic, and concise (2-4 sentences). Never diagnose. Always recommend professional help for serious concerns. ${ctx} Respond in the same language as the user.`
-            }]
-          },
-          contents: chatHist.map(m => ({
-            role: m.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: m.content }]
-          })),
-          generationConfig: {
-            maxOutputTokens: 1000,
-            temperature: 0.7,
-          }
-        }),
-      }
-    );
+    const r = await fetch(`${API_BASE}/ai/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: chatHist,
+        context:  ctx,
+        lang:     curLang,
+      }),
+    });
 
     const d     = await r.json();
-    const reply = d.candidates?.[0]?.content?.parts?.[0]?.text
-      || 'Sorry, I could not process that. Please try again.';
+    const reply = d.success && d.reply
+      ? d.reply
+      : T[curLang].aiErrorMsg;
 
     chatHist.push({ role: 'assistant', content: reply });
     typing.className   = 'msg msg-ai';
@@ -652,9 +884,7 @@ async function sendChat() {
 
   } catch (err) {
     typing.className   = 'msg msg-ai';
-    typing.textContent = curLang === 'kh'
-      ? 'មុខងារ AI ត្រូវការអ៊ីនធឺណិត។ សូមព្យាយាមម្តងទៀត។'
-      : 'AI feature requires internet connection. Please try again.';
+    typing.textContent = T[curLang].aiErrorMsg;
   }
 
   btn.disabled   = false;
@@ -673,7 +903,7 @@ async function sendChat() {
 
 function printResults() {
   if (!lastRes) {
-    alert(curLang === 'kh' ? 'សូមធ្វើតេស្តមុន' : 'Please complete the DASS-21 test first.');
+    alert(T[curLang].alertDoTestFirst);
     goTab('test');
     return;
   }
@@ -1019,6 +1249,74 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ── ADMIN DASHBOARD ────────────────────────────────────────────── */
 let adminLoaded = false;
 let currentAdminPanel = 'overview';
+let riskChart = null;
+let avgChart  = null;
+
+const RISK_COLORS = {
+  Normal: '#2E7D52', Mild: '#8B6200', Moderate: '#864200',
+  Severe: '#8B1A1A', 'Extremely Severe': '#5E0E0E',
+};
+
+function renderRiskChart(rows) {
+  const canvas = document.getElementById('admin-risk-chart');
+  if (!canvas || typeof Chart === 'undefined') return;
+  const t = T[curLang];
+
+  const labels = rows.map(r => t.lvLabels[r.worst_level] || r.worst_level);
+  const values = rows.map(r => Number(r.total));
+  const colors = rows.map(r => RISK_COLORS[r.worst_level] || '#999');
+
+  if (riskChart) riskChart.destroy();
+  if (!rows.length) return;
+
+  riskChart = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data: values, backgroundColor: colors, borderWidth: 0 }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+      },
+    },
+  });
+}
+
+function renderAvgChart(s) {
+  const canvas = document.getElementById('admin-avg-chart');
+  if (!canvas || typeof Chart === 'undefined') return;
+  const t = T[curLang];
+
+  const labels = [t.adminAvgDep, t.adminAvgAnx, t.adminAvgStr];
+  const values = [
+    Number(s.avg_depression ?? 0),
+    Number(s.avg_anxiety ?? 0),
+    Number(s.avg_stress ?? 0),
+  ];
+  const colors = ['#c97b7b', '#d6a14a', '#6f9bd1'];
+
+  if (avgChart) avgChart.destroy();
+
+  avgChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: values, backgroundColor: colors, borderRadius: 6, maxBarThickness: 48 }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, max: 42, ticks: { stepSize: 7 } },
+      },
+    },
+  });
+}
 
 function isAdminUser() {
   const session = typeof getSession === 'function' ? getSession() : null;
@@ -1066,20 +1364,20 @@ function formatDateTime(value) {
 
 async function loadAdminDashboard(force = false) {
   if (!isAdminUser()) {
-    setAdminStatus('Admin access required.', true);
+    setAdminStatus(T[curLang].adminEye, true);
     return;
   }
   if (adminLoaded && !force) return;
 
   try {
-    setAdminStatus('Loading admin dashboard…');
+    setAdminStatus(T[curLang].adminLoading);
     const data = await adminApi('/summary');
     const s = data.summary || {};
     const stats = [
-      ['Total Users', s.total_users ?? 0, '👥'],
-      ['Total Tests', s.total_tests ?? 0, '📋'],
-      ['High Risk', s.high_risk_tests ?? 0, '⚠️', 'danger'],
-      ['Clinics', s.total_clinics ?? 0, '🏥'],
+      [T[curLang].adminStatUsers, s.total_users ?? 0, '👥'],
+      [T[curLang].adminStatTests, s.total_tests ?? 0, '📋'],
+      [T[curLang].adminStatRisk, s.high_risk_tests ?? 0, '⚠️', 'danger'],
+      [T[curLang].adminStatClinics, s.total_clinics ?? 0, '🏥'],
     ];
     const statsEl = document.getElementById('admin-stats-grid');
     if (statsEl) {
@@ -1098,15 +1396,17 @@ async function loadAdminDashboard(force = false) {
       riskEl.innerHTML = rows.length ? rows.map(r => {
         const pct = Math.round((Number(r.total) / total) * 100);
         return `<div class="admin-risk-row"><span>${levelBadge(r.worst_level)}</span><strong>${r.total}</strong><div class="admin-risk-bar"><i style="width:${pct}%"></i></div></div>`;
-      }).join('') : '<p class="admin-empty">No results yet.</p>';
+      }).join('') : `<p class='admin-empty'>${T[curLang].adminNoRisk}</p>`;
+      renderRiskChart(data.risk_breakdown || []);
     }
 
     const avgEl = document.getElementById('admin-average-scores');
     if (avgEl) {
       avgEl.innerHTML = `
-        <div class="admin-average-item dep"><span>Depression</span><strong>${s.avg_depression ?? 0}</strong></div>
-        <div class="admin-average-item anx"><span>Anxiety</span><strong>${s.avg_anxiety ?? 0}</strong></div>
-        <div class="admin-average-item str"><span>Stress</span><strong>${s.avg_stress ?? 0}</strong></div>`;
+        <div class="admin-average-item dep"><span>${T[curLang].adminAvgDep}</span><strong>${s.avg_depression ?? 0}</strong></div>
+        <div class="admin-average-item anx"><span>${T[curLang].adminAvgAnx}</span><strong>${s.avg_anxiety ?? 0}</strong></div>
+        <div class="admin-average-item str"><span>${T[curLang].adminAvgStr}</span><strong>${s.avg_stress ?? 0}</strong></div>`;
+      renderAvgChart(s);
     }
 
     const recentEl = document.getElementById('admin-recent-results');
@@ -1118,15 +1418,15 @@ async function loadAdminDashboard(force = false) {
           <td>${r.depression_score}</td><td>${r.anxiety_score}</td><td>${r.stress_score}</td>
           <td>${levelBadge(r.worst_level)}</td>
           <td>${formatDateTime(r.created_at)}</td>
-        </tr>`).join('') : '<tr><td colspan="6">No screening results yet.</td></tr>';
+        </tr>`).join('') : `<tr><td colspan='6'>${T[curLang].adminNoResultsRecent}</td></tr>`;
     }
 
     await Promise.allSettled([loadAdminUsers(), loadAdminResults(), loadAdminClinics(), loadAdminQuotes()]);
     adminLoaded = true;
-    setAdminStatus('Dashboard ready. Data loaded from backend.');
+    setAdminStatus(T[curLang].adminDashReady);
   } catch (err) {
     console.error('[loadAdminDashboard]', err);
-    setAdminStatus(err.message || 'Could not load admin dashboard.', true);
+    setAdminStatus(err.message || T[curLang].adminDashFail, true);
   }
 }
 
@@ -1155,17 +1455,17 @@ async function loadAdminUsers() {
   body.innerHTML = (data.users || []).length ? data.users.map(u => `
     <tr>
       <td><strong>${u.full_name}</strong><small>${u.email}</small></td>
-      <td>${u.job || '—'}<small>${u.age ? `${u.age} yrs` : 'Age —'} · ${u.gender || 'Gender —'}</small></td>
+      <td>${u.job || '—'}<small>${u.age ? `${u.age} ${T[curLang].adminAgeYrs}` : T[curLang].adminAgeNone} · ${u.gender || T[curLang].adminGenderNone}</small></td>
       <td><select class="admin-mini-select" onchange="updateAdminUser(${u.user_id}, { role: this.value })"><option value="user" ${u.role === 'user' ? 'selected' : ''}>user</option><option value="admin" ${u.role === 'admin' ? 'selected' : ''}>admin</option></select></td>
       <td><select class="admin-mini-select" onchange="updateAdminUser(${u.user_id}, { status: this.value })"><option value="active" ${u.status === 'active' ? 'selected' : ''}>active</option><option value="inactive" ${u.status === 'inactive' ? 'selected' : ''}>inactive</option><option value="blocked" ${u.status === 'blocked' ? 'selected' : ''}>blocked</option></select></td>
       <td>${formatDateTime(u.created_at)}</td>
-    </tr>`).join('') : '<tr><td colspan="5">No users found.</td></tr>';
+    </tr>`).join('') : `<tr><td colspan='5'>${T[curLang].adminNoUsers}</td></tr>`;
 }
 
 async function updateAdminUser(userId, payload) {
   try {
     await adminApi(`/users/${userId}`, { method: 'PATCH', body: JSON.stringify(payload) });
-    setAdminStatus('User updated successfully.');
+    setAdminStatus(T[curLang].adminUserUpdated);
   } catch (err) {
     setAdminStatus(err.message, true);
     loadAdminUsers();
@@ -1186,7 +1486,7 @@ async function loadAdminResults() {
       <td><small>D: ${r.depression_level}<br>A: ${r.anxiety_level}<br>S: ${r.stress_level}</small></td>
       <td>${levelBadge(r.worst_level)}</td>
       <td>${formatDateTime(r.created_at)}</td>
-    </tr>`).join('') : '<tr><td colspan="5">No results found.</td></tr>';
+    </tr>`).join('') : `<tr><td colspan='5'>${T[curLang].adminNoResults}</td></tr>`;
 }
 
 async function loadAdminClinics() {
@@ -1197,9 +1497,9 @@ async function loadAdminClinics() {
   if (!el) return;
   el.innerHTML = (data.clinics || []).length ? data.clinics.map(c => `
     <div class="admin-mini-item">
-      <div><strong>${c.name}</strong><small>${c.type} · ${c.location || 'No location'} · NSSF ${c.nssf}</small></div>
+      <div><strong>${c.name}</strong><small>${c.type} · ${c.location || T[curLang].adminNoLocation} · NSSF ${c.nssf}</small></div>
       <button onclick="deleteAdminClinic(${c.clinic_id})">Delete</button>
-    </div>`).join('') : '<p class="admin-empty">No clinics in database yet.</p>';
+    </div>`).join('') : `<p class='admin-empty'>${T[curLang].adminNoClinics}</p>`;
 }
 
 async function createAdminClinic() {
@@ -1213,17 +1513,17 @@ async function createAdminClinic() {
     };
     await adminApi('/clinics', { method: 'POST', body: JSON.stringify(payload) });
     ['admin-clinic-name','admin-clinic-location','admin-clinic-phone'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-    setAdminStatus('Clinic added successfully.');
+    setAdminStatus(T[curLang].adminClinicAdded);
     await loadAdminClinics();
     adminLoaded = false;
   } catch (err) { setAdminStatus(err.message, true); }
 }
 
 async function deleteAdminClinic(id) {
-  if (!confirm('Delete this clinic?')) return;
+  if (!confirm(T[curLang].adminDeleteConfirm)) return;
   try {
     await adminApi(`/clinics/${id}`, { method: 'DELETE' });
-    setAdminStatus('Clinic deleted.');
+    setAdminStatus(T[curLang].adminClinicDeleted);
     await loadAdminClinics();
   } catch (err) { setAdminStatus(err.message, true); }
 }
@@ -1237,7 +1537,7 @@ async function loadAdminQuotes() {
     <div class="admin-mini-item quote">
       <div><strong>${q.quote_text}</strong><small>${q.language} · ${q.category} · ${q.is_active ? 'active' : 'inactive'}</small></div>
       <button onclick="deleteAdminQuote(${q.quote_id})">Delete</button>
-    </div>`).join('') : '<p class="admin-empty">No quotes yet.</p>';
+    </div>`).join('') : `<p class='admin-empty'>${T[curLang].adminNoQuotes}</p>`;
 }
 
 async function createAdminQuote() {
@@ -1250,16 +1550,16 @@ async function createAdminQuote() {
     };
     await adminApi('/quotes', { method: 'POST', body: JSON.stringify(payload) });
     document.getElementById('admin-quote-text').value = '';
-    setAdminStatus('Quote added successfully.');
+    setAdminStatus(T[curLang].adminQuoteAdded);
     await loadAdminQuotes();
   } catch (err) { setAdminStatus(err.message, true); }
 }
 
 async function deleteAdminQuote(id) {
-  if (!confirm('Delete this quote?')) return;
+  if (!confirm(T[curLang].adminDeleteConfirm)) return;
   try {
     await adminApi(`/quotes/${id}`, { method: 'DELETE' });
-    setAdminStatus('Quote deleted.');
+    setAdminStatus(T[curLang].adminQuoteDeleted);
     await loadAdminQuotes();
   } catch (err) { setAdminStatus(err.message, true); }
 }

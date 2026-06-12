@@ -2252,6 +2252,27 @@ html[lang="kh"] .about-promise-list li {
   text-decoration: underline;
 }
 
+.auth-guest-link {
+  text-align: center;
+  margin-top: -8px;
+  margin-bottom: 16px;
+}
+
+.auth-guest-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.auth-guest-btn:hover {
+  color: var(--sage-deep);
+  text-decoration: underline;
+}
+
 .social-login {
   display: flex;
   gap: 12px;
@@ -2646,6 +2667,7 @@ html[lang="km"] .hero-random-quote,
 .admin-level-Moderate { background: #FFE0C0; color: var(--col-moderate); }
 .admin-level-Severe { background: #F8D7DA; color: var(--col-severe); }
 .admin-level-Extremely-Severe { background: #F5C2C7; color: var(--col-extreme); }
+.admin-chart-wrap { position: relative; height: 200px; margin-bottom: 14px; }
 .admin-risk-list { display: flex; flex-direction: column; gap: 10px; }
 .admin-risk-row { display: grid; grid-template-columns: 140px 40px 1fr; gap: 10px; align-items: center; }
 .admin-risk-bar { height: 10px; background: #edf4f0; border-radius: 999px; overflow: hidden; }
@@ -2684,6 +2706,7 @@ html[lang="km"] .hero-random-quote,
   font-weight: 700;
 }
 .admin-empty { color: var(--muted); font-size: 13px; }
+
 @media (max-width: 780px) {
   .admin-hero { flex-direction: column; align-items: flex-start; }
   .admin-stats-grid,
