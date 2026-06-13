@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌿 YOUR HOPE
+# YOUR HOPE
 
 ### Mental Health Support Platform for Phnom Penh
 
@@ -20,49 +20,49 @@ admin analytics dashboard.
 
 ---
 
-## 📖 About
+## About
 
 **YOUR HOPE** helps people in Phnom Penh take a first step toward better
 mental health. Users can complete a validated DASS-21 screening, browse a
 directory of 100 local clinics and services, chat with an AI assistant for
-support and guidance, and export their results to share with a doctor —
+support and guidance, and export their results to share with a doctor
 all in English or Khmer.
 
-> ⚠️ **Disclaimer**: This app is for informational and screening purposes
+> **Disclaimer**: This app is for informational and screening purposes
 > only. DASS-21 is a validated tool but does not provide a clinical
 > diagnosis. If you or someone you know is in crisis, please contact a
 > qualified mental health professional immediately.
 
 ---
 
-## ✨ Features
+## Features
 
 <table>
 <tr>
 <td valign="top" width="50%">
 
-### 👤 For Users
-- **DASS-21 Screening** — 21-item assessment across Depression, Anxiety,
+### For Users
+- **DASS-21 Screening** : 21-item assessment across Depression, Anxiety,
   and Stress, scored per Lovibond & Lovibond (1995)
-- **Service Directory** — 100 mental health services across Phnom Penh,
+- **Service Directory** : 100 mental health services across Phnom Penh,
   filterable by type and NSSF coverage, with list and map views
-- **AI Support Chat** — context-aware assistant powered by Google Gemini
-- **PDF Export** — print-ready results to share with a healthcare provider
-- **Bilingual UI** — full English / Khmer translations, switchable anytime
-- **Guest mode** — browse freely; sign up only when taking the test or
+- **AI Support Chat** : context-aware assistant powered by Google Gemini
+- **PDF Export** : print-ready results to share with a healthcare provider
+- **Bilingual UI** : full English / Khmer translations, switchable anytime
+- **Guest mode** : browse freely; sign up only when taking the test or
   using protected features
 
 </td>
 <td valign="top" width="50%">
 
-### 🛠️ For Admins
+### For Admins
 - **Live dashboard** with key metrics: total users, tests taken,
   high-risk cases, registered clinics
-- **Interactive charts** — risk level breakdown, average scores,
+- **Interactive charts** : risk level breakdown, average scores,
   user status, and severity distribution by scale
-- **User management** — search, filter, and review profiles
-- **Results management** — search and filter screening history
-- **Content management** — add/remove clinics and motivational quotes
+- **User management** : search, filter, and review profiles
+- **Results management** : search and filter screening history
+- **Content management** : add/remove clinics and motivational quotes
 
 </td>
 </tr>
@@ -70,7 +70,7 @@ all in English or Khmer.
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -84,7 +84,7 @@ all in English or Khmer.
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 YOUR-HOPE-APP/
@@ -109,12 +109,11 @@ YOUR-HOPE-APP/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js ≥ 18
 - MySQL 8 or 9
-- A Gemini API key ([aistudio.google.com](https://aistudio.google.com))
 
 ### 1. Clone & set up the database
 ```bash
@@ -165,7 +164,7 @@ mysql -u root -p your_hope_db < YOUR-HOPE-BACKEND/sql/admin_user.sql
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 | Component | Platform |
 |---|---|
@@ -185,7 +184,7 @@ mysql -u root -p your_hope_db < YOUR-HOPE-BACKEND/sql/admin_user.sql
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 | Method & Route | Description |
 |---|---|
@@ -203,7 +202,7 @@ mysql -u root -p your_hope_db < YOUR-HOPE-BACKEND/sql/admin_user.sql
 
 ---
 
-## 📊 DASS-21 Scoring Reference
+## DASS-21 Scoring Reference
 
 | Scale | Normal | Mild | Moderate | Severe | Extremely Severe |
 |---|---|---|---|---|---|
@@ -215,7 +214,7 @@ mysql -u root -p your_hope_db < YOUR-HOPE-BACKEND/sql/admin_user.sql
 
 ---
 
-## 🔒 Security
+## Security
 
 - Secrets (`.env`) are excluded via `.gitignore` and never committed
 - Gemini API key is used **server-side only**, via `/api/ai/chat`
@@ -224,7 +223,7 @@ mysql -u root -p your_hope_db < YOUR-HOPE-BACKEND/sql/admin_user.sql
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
