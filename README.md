@@ -223,14 +223,8 @@ mysql -u root -p your_hope_db < YOUR-HOPE-BACKEND/sql/admin_user.sql
 
 ---
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
 <div align="center">
 
-Made with 🌱 for the mental health community of Phnom Penh
+**We are thank you**
 
 </div>
